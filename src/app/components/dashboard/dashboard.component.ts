@@ -376,7 +376,16 @@ export class DashboardComponent implements OnInit {
       next: (res) => {
         this.loading.set(false);
         if (res.data) {
-          this.userList.set(res.data.content);
+          const rawContent: any[] = res.data.content || [];
+          const normalized = rawContent.map(u => ({
+            ...u,
+            isLocked: u.locked ?? u.isLocked ?? false,
+            isActive: u.enabled ?? u.isActive ?? true,
+            roles: Array.isArray(u.roles)
+              ? u.roles.map((r: any) => typeof r === 'string' ? r : (r.code || r.name))
+              : []
+          }));
+          this.userList.set(normalized);
           this.userPage = res.data.pageNumber;
           this.userTotalPages = res.data.totalPages;
           this.userTotalElements = res.data.totalElements;
@@ -413,12 +422,14 @@ export class DashboardComponent implements OnInit {
     }
 
     const payload = {
+      username: this.newUserForm.email,
       email: this.newUserForm.email,
       password: this.newUserForm.password,
       fullName: this.newUserForm.fullName,
       phoneNumber: this.newUserForm.phoneNumber,
       address: this.newUserForm.address,
       gender: this.newUserForm.gender,
+      roleCodes: [this.newUserForm.selectedRole],
       roles: [this.newUserForm.selectedRole]
     };
 
@@ -506,7 +517,8 @@ export class DashboardComponent implements OnInit {
 
   openAssignRolesModal(user: UserDetail) {
     this.selectedUserForAction = user;
-    this.selectedRolesForUser = [...(user.roles || [])];
+    const rawRoles = user.roles || [];
+    this.selectedRolesForUser = rawRoles.map((r: any) => typeof r === 'string' ? r : (r.code || r.name));
     this.showAssignRolesModal.set(true);
     if (this.roleList().length === 0) {
       this.loadRoles();
@@ -583,8 +595,14 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
+    const payload = {
+      name: this.newRoleForm.name,
+      code: this.newRoleForm.name.toUpperCase().replace(/\s+/g, '_'),
+      description: this.newRoleForm.description
+    };
+
     this.loading.set(true);
-    this.userService.createRole(this.newRoleForm).subscribe({
+    this.userService.createRole(payload).subscribe({
       next: (res) => {
         this.loading.set(false);
         this.toast.success(`Tạo vai trò ${res.data?.name} thành công! 🛡️`);
@@ -659,8 +677,21 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
+    const code = this.newPermForm.name.includes(':')
+      ? this.newPermForm.name
+      : `${this.newPermForm.module}:${this.newPermForm.name.toUpperCase().replace(/\s+/g, '_')}`;
+    const parts = code.split(':');
+    const payload = {
+      name: this.newPermForm.name,
+      code: code,
+      module: this.newPermForm.module,
+      resource: parts[0],
+      action: parts[1] || 'ACCESS',
+      description: this.newPermForm.description
+    };
+
     this.loading.set(true);
-    this.userService.createPermission(this.newPermForm).subscribe({
+    this.userService.createPermission(payload).subscribe({
       next: (res) => {
         this.loading.set(false);
         this.toast.success(`Tạo quyền ${res.data?.name} thành công!`);

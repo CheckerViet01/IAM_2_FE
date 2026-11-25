@@ -794,9 +794,9 @@
         <div class="checkbox-list">
           @for (r of roleList(); track r.id) {
             <label class="checkbox-item glass-panel">
-              <input type="checkbox" [checked]="selectedRolesForUser.includes(r.name)" (change)="toggleRoleSelection(r.name)" />
+              <input type="checkbox" [checked]="selectedRolesForUser.includes(r.code || '') || selectedRolesForUser.includes(r.name)" (change)="toggleRoleSelection(r.code || r.name)" />
               <div class="checkbox-text">
-                <span class="role-title">{{ r.name }}</span>
+                <span class="role-title">{{ r.code || r.name }} <small style="opacity: 0.7;">({{ r.name }})</small></span>
                 <span class="role-desc">{{ r.description || 'Không có mô tả' }}</span>
               </div>
             </label>
