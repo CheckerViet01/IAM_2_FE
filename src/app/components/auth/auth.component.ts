@@ -70,12 +70,14 @@ export class AuthComponent implements OnInit {
   }
 
   loginWithKeycloak() {
-    if (this.keycloakLoginUrl()) {
-      window.location.href = this.keycloakLoginUrl();
-    } else {
-      // Fallback url
-      window.location.href = 'http://localhost:8180/realms/iam-realm/protocol/openid-connect/auth?client_id=iam-frontend&response_type=token&redirect_uri=http://localhost:4200/&scope=openid%20profile%20email';
+    let url = this.keycloakLoginUrl();
+    if (!url) {
+      url = 'http://localhost:8180/realms/iam-realm/protocol/openid-connect/auth?client_id=iam-frontend&response_type=token&redirect_uri=http://localhost:4200/&scope=openid%20profile%20email';
     }
+    if (!url.includes('prompt=login')) {
+      url += '&prompt=login';
+    }
+    window.location.href = url;
   }
 
   // Form Models

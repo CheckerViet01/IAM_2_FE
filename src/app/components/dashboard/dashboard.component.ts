@@ -727,9 +727,13 @@ export class DashboardComponent implements OnInit {
     this.authService.logout().subscribe({
       next: () => {
         this.toast.info('Đã đăng xuất khỏi phiên làm việc.');
+        const kcLogoutUrl = `http://localhost:8180/realms/iam-realm/protocol/openid-connect/logout?post_logout_redirect_uri=${encodeURIComponent('http://localhost:4200/')}&client_id=iam-frontend`;
+        window.location.href = kcLogoutUrl;
       },
       error: () => {
         this.authService.clearSession();
+        const kcLogoutUrl = `http://localhost:8180/realms/iam-realm/protocol/openid-connect/logout?post_logout_redirect_uri=${encodeURIComponent('http://localhost:4200/')}&client_id=iam-frontend`;
+        window.location.href = kcLogoutUrl;
       }
     });
   }
