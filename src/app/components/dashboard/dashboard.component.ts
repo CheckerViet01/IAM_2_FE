@@ -96,9 +96,37 @@ export class DashboardComponent implements OnInit {
   rbacSubTab: 'roles' | 'permissions' = 'roles';
   roleList = signal<RoleItem[]>([]);
   permissionList = signal<PermissionItem[]>([]);
+  allRolesForAssign = signal<RoleItem[]>([]);
+  allPermissionsForAssign = signal<PermissionItem[]>([]);
+
+  // Roles pagination & edit
+  rolePage = 0;
+  roleTotalPages = 0;
+  roleTotalElements = 0;
+  rolePageSize = 5;
   showCreateRoleModal = signal(false);
-  showAssignPermsModal = signal(false);
+  showEditRoleModal = signal(false);
+  editingRole: RoleItem | null = null;
+  editRoleForm = {
+    name: '',
+    description: ''
+  };
+
+  // Permissions pagination & edit
+  permPage = 0;
+  permTotalPages = 0;
+  permTotalElements = 0;
+  permPageSize = 5;
   showCreatePermModal = signal(false);
+  showEditPermModal = signal(false);
+  editingPerm: PermissionItem | null = null;
+  editPermForm = {
+    name: '',
+    module: 'USER',
+    description: ''
+  };
+
+  showAssignPermsModal = signal(false);
 
   newRoleForm = {
     name: '',
@@ -519,10 +547,14 @@ export class DashboardComponent implements OnInit {
     this.selectedUserForAction = user;
     const rawRoles = user.roles || [];
     this.selectedRolesForUser = rawRoles.map((r: any) => typeof r === 'string' ? r : (r.code || r.name));
+    this.userService.getRoles(0, 100).subscribe({
+      next: (res) => {
+        if (res.data?.content) {
+          this.allRolesForAssign.set(res.data.content);
+        }
+      }
+    });
     this.showAssignRolesModal.set(true);
-    if (this.roleList().length === 0) {
-      this.loadRoles();
-    }
   }
 
   toggleRoleSelection(roleName: string) {
@@ -564,21 +596,27 @@ export class DashboardComponent implements OnInit {
   // RBAC METHODS (YÊU CẦU 3 & 6)
   // ==========================================
 
-  loadRoles() {
-    this.userService.getRoles(0, 50).subscribe({
+  loadRoles(page = 0) {
+    this.userService.getRoles(page, this.rolePageSize).subscribe({
       next: (res) => {
         if (res.data) {
-          this.roleList.set(res.data.content);
+          this.roleList.set(res.data.content || []);
+          this.rolePage = res.data.pageNumber || 0;
+          this.roleTotalPages = res.data.totalPages || 0;
+          this.roleTotalElements = res.data.totalElements || 0;
         }
       }
     });
   }
 
-  loadPermissions() {
-    this.userService.getPermissions(0, 100).subscribe({
+  loadPermissions(page = 0) {
+    this.userService.getPermissions(page, this.permPageSize).subscribe({
       next: (res) => {
         if (res.data) {
-          this.permissionList.set(res.data.content);
+          this.permissionList.set(res.data.content || []);
+          this.permPage = res.data.pageNumber || 0;
+          this.permTotalPages = res.data.totalPages || 0;
+          this.permTotalElements = res.data.totalElements || 0;
         }
       }
     });
@@ -587,6 +625,15 @@ export class DashboardComponent implements OnInit {
   openCreateRoleModal() {
     this.newRoleForm = { name: '', description: '' };
     this.showCreateRoleModal.set(true);
+  }
+
+  openEditRoleModal(role: RoleItem) {
+    this.editingRole = role;
+    this.editRoleForm = {
+      name: role.name,
+      description: role.description || ''
+    };
+    this.showEditRoleModal.set(true);
   }
 
   onCreateRoleSubmit() {
@@ -607,11 +654,38 @@ export class DashboardComponent implements OnInit {
         this.loading.set(false);
         this.toast.success(`Tạo vai trò ${res.data?.name} thành công! 🛡️`);
         this.showCreateRoleModal.set(false);
-        this.loadRoles();
+        this.loadRoles(0);
       },
       error: (err) => {
         this.loading.set(false);
         this.toast.error(err.error?.message || 'Tạo vai trò thất bại!');
+      }
+    });
+  }
+
+  onUpdateRoleSubmit() {
+    if (!this.editingRole) return;
+    if (!this.editRoleForm.name || !this.editRoleForm.name.trim()) {
+      this.toast.warning('Tên vai trò không được để trống!');
+      return;
+    }
+
+    const payload = {
+      name: this.editRoleForm.name.trim(),
+      description: this.editRoleForm.description
+    };
+
+    this.loading.set(true);
+    this.userService.updateRole(this.editingRole.id, payload).subscribe({
+      next: (res) => {
+        this.loading.set(false);
+        this.toast.success(`Cập nhật vai trò ${res.data?.name || this.editRoleForm.name} thành công! ✏️`);
+        this.showEditRoleModal.set(false);
+        this.loadRoles(this.rolePage);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.toast.error(err.error?.message || 'Cập nhật vai trò thất bại!');
       }
     });
   }
@@ -624,7 +698,7 @@ export class DashboardComponent implements OnInit {
       next: () => {
         this.loading.set(false);
         this.toast.success(`Đã xóa mềm vai trò ${role.name}!`);
-        this.loadRoles();
+        this.loadRoles(this.rolePage);
       },
       error: (err) => {
         this.loading.set(false);
@@ -636,6 +710,13 @@ export class DashboardComponent implements OnInit {
   openAssignPermsModal(role: RoleItem) {
     this.selectedRoleForPerms = role;
     this.selectedPermIds = (role.permissions || []).map(p => p.id);
+    this.userService.getPermissions(0, 100).subscribe({
+      next: (res) => {
+        if (res.data?.content) {
+          this.allPermissionsForAssign.set(res.data.content);
+        }
+      }
+    });
     this.showAssignPermsModal.set(true);
   }
 
@@ -657,7 +738,7 @@ export class DashboardComponent implements OnInit {
         this.loading.set(false);
         this.toast.success(`Cập nhật danh sách quyền cho vai trò ${this.selectedRoleForPerms?.name} thành công!`);
         this.showAssignPermsModal.set(false);
-        this.loadRoles();
+        this.loadRoles(this.rolePage);
       },
       error: (err) => {
         this.loading.set(false);
@@ -669,6 +750,16 @@ export class DashboardComponent implements OnInit {
   openCreatePermModal() {
     this.newPermForm = { name: '', module: 'USER', description: '' };
     this.showCreatePermModal.set(true);
+  }
+
+  openEditPermModal(perm: PermissionItem) {
+    this.editingPerm = perm;
+    this.editPermForm = {
+      name: perm.name,
+      module: perm.module || 'USER',
+      description: perm.description || ''
+    };
+    this.showEditPermModal.set(true);
   }
 
   onCreatePermSubmit() {
@@ -696,11 +787,47 @@ export class DashboardComponent implements OnInit {
         this.loading.set(false);
         this.toast.success(`Tạo quyền ${res.data?.name} thành công!`);
         this.showCreatePermModal.set(false);
-        this.loadPermissions();
+        this.loadPermissions(0);
       },
       error: (err) => {
         this.loading.set(false);
         this.toast.error(err.error?.message || 'Tạo quyền thất bại!');
+      }
+    });
+  }
+
+  onUpdatePermSubmit() {
+    if (!this.editingPerm) return;
+    if (!this.editPermForm.name || !this.editPermForm.name.trim()) {
+      this.toast.warning('Tên quyền không được để trống!');
+      return;
+    }
+
+    const code = this.editingPerm.code || (this.editPermForm.name.includes(':')
+      ? this.editPermForm.name
+      : `${this.editPermForm.module}:${this.editPermForm.name.toUpperCase().replace(/\s+/g, '_')}`);
+    const parts = code.split(':');
+
+    const payload = {
+      name: this.editPermForm.name.trim(),
+      code: code,
+      module: this.editPermForm.module,
+      resource: parts[0] || this.editPermForm.module,
+      action: parts[1] || 'ACCESS',
+      description: this.editPermForm.description
+    };
+
+    this.loading.set(true);
+    this.userService.updatePermission(this.editingPerm.id, payload).subscribe({
+      next: (res) => {
+        this.loading.set(false);
+        this.toast.success(`Cập nhật quyền ${res.data?.name || this.editPermForm.name} thành công! ✏️`);
+        this.showEditPermModal.set(false);
+        this.loadPermissions(this.permPage);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.toast.error(err.error?.message || 'Cập nhật quyền thất bại!');
       }
     });
   }
@@ -713,7 +840,7 @@ export class DashboardComponent implements OnInit {
       next: () => {
         this.loading.set(false);
         this.toast.success(`Đã xóa mềm quyền ${perm.name}!`);
-        this.loadPermissions();
+        this.loadPermissions(this.permPage);
       },
       error: (err) => {
         this.loading.set(false);

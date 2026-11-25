@@ -122,6 +122,10 @@ export class UserService {
     return this.http.post<ApiResponse<PermissionItem>>(this.permissionsUrl, data);
   }
 
+  updatePermission(id: number, data: any): Observable<ApiResponse<PermissionItem>> {
+    return this.http.put<ApiResponse<PermissionItem>>(`${this.permissionsUrl}/${id}`, data);
+  }
+
   deletePermission(id: number): Observable<ApiResponse<string>> {
     return this.http.delete<ApiResponse<string>>(`${this.permissionsUrl}/${id}`);
   }

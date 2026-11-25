@@ -646,6 +646,7 @@
                       <td class="code-font">{{ r.createdBy || 'SYSTEM' }}</td>
                       <td>
                         <div class="action-buttons-wrap">
+                          <button type="button" class="btn-action-icon" (click)="openEditRoleModal(r)" title="Chỉnh sửa vai trò">✏️</button>
                           <button type="button" class="btn-ghost btn-sm" (click)="openAssignPermsModal(r)">⚙️ Gán Quyền</button>
                           <button type="button" class="btn-action-icon danger" (click)="onDeleteRole(r)" title="Xóa mềm vai trò">🗑️</button>
                         </div>
@@ -658,6 +659,12 @@
                   }
                 </tbody>
               </table>
+            </div>
+
+            <div class="pagination-bar">
+              <button type="button" class="btn-ghost" [disabled]="rolePage === 0" (click)="loadRoles(rolePage - 1)">← Trang trước</button>
+              <span class="page-indicator">Trang {{ rolePage + 1 }} / {{ roleTotalPages || 1 }} (Tổng {{ roleTotalElements }} vai trò)</span>
+              <button type="button" class="btn-ghost" [disabled]="rolePage >= (roleTotalPages || 1) - 1" (click)="loadRoles(rolePage + 1)">Trang sau →</button>
             </div>
           </div>
         }
@@ -690,7 +697,10 @@
                       <td>{{ p.description || '—' }}</td>
                       <td class="code-font">{{ p.createdBy || 'SYSTEM' }}</td>
                       <td>
-                        <button type="button" class="btn-action-icon danger" (click)="onDeletePermission(p)" title="Xóa mềm quyền">🗑️</button>
+                        <div class="action-buttons-wrap">
+                          <button type="button" class="btn-action-icon" (click)="openEditPermModal(p)" title="Chỉnh sửa quyền">✏️</button>
+                          <button type="button" class="btn-action-icon danger" (click)="onDeletePermission(p)" title="Xóa mềm quyền">🗑️</button>
+                        </div>
                       </td>
                     </tr>
                   } @empty {
@@ -700,6 +710,12 @@
                   }
                 </tbody>
               </table>
+            </div>
+
+            <div class="pagination-bar">
+              <button type="button" class="btn-ghost" [disabled]="permPage === 0" (click)="loadPermissions(permPage - 1)">← Trang trước</button>
+              <span class="page-indicator">Trang {{ permPage + 1 }} / {{ permTotalPages || 1 }} (Tổng {{ permTotalElements }} quyền)</span>
+              <button type="button" class="btn-ghost" [disabled]="permPage >= (permTotalPages || 1) - 1" (click)="loadPermissions(permPage + 1)">Trang sau →</button>
             </div>
           </div>
         }
@@ -790,7 +806,7 @@
         <p class="modal-desc">Chọn các vai trò cho tài khoản <strong>{{ selectedUserForAction?.email }}</strong>:</p>
 
         <div class="checkbox-list">
-          @for (r of roleList(); track r.id) {
+          @for (r of (allRolesForAssign().length ? allRolesForAssign() : roleList()); track r.id) {
             <label class="checkbox-item glass-panel">
               <input type="checkbox" [checked]="selectedRolesForUser.includes(r.code || '') || selectedRolesForUser.includes(r.name)" (change)="toggleRoleSelection(r.code || r.name)" />
               <div class="checkbox-text">
@@ -858,6 +874,31 @@
     </div>
   }
 
+  @if (showEditRoleModal()) {
+    <div class="modal-backdrop">
+      <div class="modal-panel glass-panel">
+        <h3 class="modal-title">Chỉnh Sửa Vai Trò ✏️</h3>
+        <p class="modal-desc">Cập nhật thông tin vai trò: <strong>{{ editingRole?.code || editingRole?.name }}</strong></p>
+        <div class="form-group modal-field">
+          <label>Tên Vai Trò *</label>
+          <input type="text" class="dream-input" [(ngModel)]="editRoleForm.name" placeholder="Ví dụ: Quản trị viên" autofocus />
+        </div>
+        <div class="form-group modal-field">
+          <label>Mô Tả</label>
+          <input type="text" class="dream-input" [(ngModel)]="editRoleForm.description" placeholder="Mô tả chức trách của vai trò" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" (click)="showEditRoleModal.set(false)">Hủy</button>
+          <button type="button" class="btn-dream" (click)="onUpdateRoleSubmit()" [disabled]="loading()">
+            @if (loading()) { <span class="spinner"></span> }
+            <span>Cập Nhật Vai Trò 💾</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
   @if (showAssignPermsModal()) {
     <div class="modal-backdrop">
       <div class="modal-panel glass-panel large-modal">
@@ -865,7 +906,7 @@
         <p class="modal-desc">Tích chọn các quyền mà vai trò này được phép thực thi trong hệ thống:</p>
 
         <div class="perm-selection-grid">
-          @for (p of permissionList(); track p.id) {
+          @for (p of (allPermissionsForAssign().length ? allPermissionsForAssign() : permissionList()); track p.id) {
             <label class="perm-item-box glass-panel">
               <input type="checkbox" [checked]="selectedPermIds.includes(p.id)" (change)="togglePermSelection(p.id)" />
               <div class="perm-info">
@@ -908,6 +949,35 @@
           <button type="button" class="btn-ghost" (click)="showCreatePermModal.set(false)">Hủy</button>
           <button type="button" class="btn-dream" (click)="onCreatePermSubmit()" [disabled]="loading()">
             <span>Tạo Quyền</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (showEditPermModal()) {
+    <div class="modal-backdrop">
+      <div class="modal-panel glass-panel">
+        <h3 class="modal-title">Chỉnh Sửa Quyền Hạn ✏️</h3>
+        <p class="modal-desc">Cập nhật thông tin quyền: <strong>{{ editingPerm?.code || editingPerm?.name }}</strong></p>
+        <div class="form-group modal-field">
+          <label>Tên Quyền *</label>
+          <input type="text" class="dream-input" [(ngModel)]="editPermForm.name" placeholder="Ví dụ: Tạo người dùng mới" autofocus />
+        </div>
+        <div class="form-group modal-field">
+          <label>Module *</label>
+          <input type="text" class="dream-input" [(ngModel)]="editPermForm.module" placeholder="Ví dụ: USER, ROLE, REPORT" />
+        </div>
+        <div class="form-group modal-field">
+          <label>Mô Tả</label>
+          <input type="text" class="dream-input" [(ngModel)]="editPermForm.description" placeholder="Mô tả quyền hạn" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" (click)="showEditPermModal.set(false)">Hủy</button>
+          <button type="button" class="btn-dream" (click)="onUpdatePermSubmit()" [disabled]="loading()">
+            @if (loading()) { <span class="spinner"></span> }
+            <span>Cập Nhật Quyền 💾</span>
           </button>
         </div>
       </div>
