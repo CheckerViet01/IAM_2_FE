@@ -47,26 +47,24 @@ export class AuthComponent implements OnInit {
       const token = params.get('access_token');
       const refreshToken = params.get('refresh_token');
       if (token) {
-        this.authService.setSession({
-          accessToken: token,
-          refreshToken: refreshToken || '',
-          requires2fa: false,
-          user: {
-            id: 1,
-            email: 'keycloak_user@iam.com',
-            fullName: 'Keycloak SSO User',
-            isEmailVerified: true,
-            isPhoneVerified: false,
-            twoFactorEnabled: false,
-            twoFactorMethod: 'NONE',
-            isActive: true,
-            createdAt: new Date().toISOString(),
-            roles: ['USER_MANAGER', 'SYSTEM_ADMIN'],
-            permissions: []
+        localStorage.setItem('iam_access_token', token);
+        if (refreshToken) {
+          localStorage.setItem('iam_refresh_token', refreshToken);
+        }
+
+        // Gọi ngay API Profile để nạp thông tin user từ IAM Backend
+        this.userService.getProfile().subscribe({
+          next: (res) => {
+            if (res.data) {
+              this.authService.updateCurrentUser(res.data as any);
+              this.toast.success('Đăng nhập thành công qua Keycloak SSO!');
+              window.location.hash = '';
+            }
+          },
+          error: (err) => {
+            this.toast.error('Tài khoản Keycloak chưa được đồng bộ trong cơ sở dữ liệu IAM!');
           }
         });
-        this.toast.success('Đăng nhập thành công qua Keycloak SSO!');
-        window.location.hash = '';
       }
     }
   }
