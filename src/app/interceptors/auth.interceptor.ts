@@ -67,7 +67,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       const isAuthEndpoint = req.url.includes('/api/v1/auth/login')
         || req.url.includes('/api/v1/auth/register')
         || req.url.includes('/api/v1/auth/refresh-token')
-        || req.url.includes('/api/v1/auth/verify-2fa');
+        || req.url.includes('/api/v1/auth/verify-2fa')
+        || req.url.includes('/api/v1/users/change-password')
+        || req.url.includes('/api/v1/users/2fa/disable');
 
       if (error.status === 401 && !isAuthEndpoint) {
         return handle401Error(req, next, authService);
