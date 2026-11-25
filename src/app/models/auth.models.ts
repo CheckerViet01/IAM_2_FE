@@ -89,6 +89,7 @@ export interface UserDetail {
 
 export interface PermissionItem {
   id: number;
+  code?: string;
   name: string;
   module: string;
   description?: string;
@@ -100,6 +101,7 @@ export interface PermissionItem {
 
 export interface RoleItem {
   id: number;
+  code?: string;
   name: string;
   description?: string;
   deleted: boolean;
