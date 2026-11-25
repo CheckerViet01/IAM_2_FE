@@ -372,7 +372,7 @@ export class DashboardComponent implements OnInit {
 
   loadUsers(page = 0) {
     this.loading.set(true);
-    this.userService.getUsers(this.userKeyword, page, 10).subscribe({
+    this.userService.getUsers(this.userKeyword, page, 5).subscribe({
       next: (res) => {
         this.loading.set(false);
         if (res.data) {

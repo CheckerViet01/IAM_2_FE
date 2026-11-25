@@ -591,13 +591,11 @@
           </table>
         </div>
 
-        @if (userTotalPages > 1) {
-          <div class="pagination-bar">
-            <button type="button" class="btn-ghost" [disabled]="userPage === 0" (click)="loadUsers(userPage - 1)">← Trang trước</button>
-            <span class="page-indicator">Trang {{ userPage + 1 }} / {{ userTotalPages }} (Tổng {{ userTotalElements }} users)</span>
-            <button type="button" class="btn-ghost" [disabled]="userPage >= userTotalPages - 1" (click)="loadUsers(userPage + 1)">Trang sau →</button>
-          </div>
-        }
+        <div class="pagination-bar">
+          <button type="button" class="btn-ghost" [disabled]="userPage === 0" (click)="loadUsers(userPage - 1)">← Trang trước</button>
+          <span class="page-indicator">Trang {{ userPage + 1 }} / {{ userTotalPages || 1 }} (Tổng {{ userTotalElements }} users)</span>
+          <button type="button" class="btn-ghost" [disabled]="userPage >= (userTotalPages || 1) - 1" (click)="loadUsers(userPage + 1)">Trang sau →</button>
+        </div>
       </div>
     }
 
