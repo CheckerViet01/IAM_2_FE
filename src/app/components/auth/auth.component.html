@@ -1,97 +1,136 @@
-﻿<div class="auth-wrapper">
-  <!-- Anime Sky & Drifting Sakura Petals -->
-  <div class="starfield"></div>
-  <div class="sakura-layer" aria-hidden="true">
-    <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-    <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-    <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-    <span class="petal"></span>
+<div class="auth-wrapper">
+  <!-- Autumn Golden Sunlight & Falling Maple Leaves Layers -->
+  <div class="golden-bokeh"></div>
+  <div class="sunbeams"></div>
+  <div class="autumn-leaves-layer" aria-hidden="true">
+    <span class="leaf"></span><span class="leaf"></span><span class="leaf"></span>
+    <span class="leaf"></span><span class="leaf"></span><span class="leaf"></span>
+    <span class="leaf"></span><span class="leaf"></span><span class="leaf"></span>
+    <span class="leaf"></span><span class="leaf"></span><span class="leaf"></span>
   </div>
   <div class="aurora-orb orb-1"></div>
   <div class="aurora-orb orb-2"></div>
   <div class="aurora-orb orb-3"></div>
 
   <div class="auth-shell">
-    <!-- Left Anime Twilight Showcase Panel -->
+    <!-- Left Autumn Golden Forest Showcase Panel -->
     <aside class="anime-showcase glass-panel">
       <div class="showcase-scene">
-        <!-- Shinkai-style Night Sky, Crescent Moon, Comet & Torii Gate SVG -->
-        <svg class="scene-svg" viewBox="0 0 420 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Autumn Golden Forest & Falling Leaves SVG Scene -->
+        <svg class="scene-svg" viewBox="0 0 420 480" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="skyGrad" x1="0" y1="0" x2="420" y2="460" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#190e3a"/>
-              <stop offset="55%" stop-color="#2b124c"/>
-              <stop offset="100%" stop-color="#4c164d"/>
+            <linearGradient id="autumnSky" x1="0" y1="0" x2="420" y2="480" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#451a03"/>
+              <stop offset="45%" stop-color="#78350f"/>
+              <stop offset="85%" stop-color="#b45309"/>
+              <stop offset="100%" stop-color="#d97706"/>
             </linearGradient>
-            <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#ffe4f2" stop-opacity="0.95"/>
-              <stop offset="55%" stop-color="#ff8fab" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#ff6b9d" stop-opacity="0"/>
+            <radialGradient id="sunBurst" cx="80%" cy="15%" r="75%">
+              <stop offset="0%" stop-color="#fef08a" stop-opacity="0.95"/>
+              <stop offset="25%" stop-color="#fde047" stop-opacity="0.6"/>
+              <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#b45309" stop-opacity="0"/>
             </radialGradient>
-            <linearGradient id="cometGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#22d3ee" stop-opacity="0"/>
-              <stop offset="65%" stop-color="#a5f3fc" stop-opacity="0.8"/>
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+            <linearGradient id="trunkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#451a03"/>
+              <stop offset="100%" stop-color="#1c0f06"/>
+            </linearGradient>
+            <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fef08a"/>
+              <stop offset="50%" stop-color="#f59e0b"/>
+              <stop offset="100%" stop-color="#b45309"/>
+            </linearGradient>
+            <linearGradient id="leafGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fde68a"/>
+              <stop offset="50%" stop-color="#ea580c"/>
+              <stop offset="100%" stop-color="#7c2d12"/>
             </linearGradient>
           </defs>
 
-          <rect width="420" height="460" rx="20" fill="url(#skyGrad)"/>
+          <!-- Sky & Sunburst -->
+          <rect width="420" height="480" rx="20" fill="url(#autumnSky)"/>
+          <rect width="420" height="480" rx="20" fill="url(#sunBurst)"/>
 
-          <!-- Horizon Aurora Glow -->
-          <ellipse cx="210" cy="390" rx="220" ry="90" fill="#ff6b9d" fill-opacity="0.16"/>
-          <ellipse cx="140" cy="140" rx="140" ry="110" fill="#8b5cf6" fill-opacity="0.18"/>
+          <!-- Diagonal Sun Rays -->
+          <polygon points="360,0 420,0 320,480 220,480" fill="#fef08a" fill-opacity="0.08"/>
+          <polygon points="280,0 360,0 180,480 60,480" fill="#fef08a" fill-opacity="0.06"/>
+          <polygon points="390,0 420,0 380,480 320,480" fill="#fff" fill-opacity="0.07"/>
 
-          <!-- Shooting Star / Comet -->
-          <line x1="65" y1="70" x2="195" y2="145" stroke="url(#cometGrad)" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="196" cy="146" r="3.5" fill="#ffffff"/>
+          <!-- Distant Autumn Forest Silhouette -->
+          <path d="M0 310Q60 270 120 295Q180 260 250 285Q320 255 420 275V480H0V310Z" fill="#78350f" fill-opacity="0.75"/>
+          <path d="M0 340Q80 315 160 330Q240 310 320 325Q380 315 420 330V480H0V340Z" fill="#451a03" fill-opacity="0.9"/>
 
-          <!-- Crescent Moon -->
-          <circle cx="315" cy="110" r="68" fill="url(#moonGlow)"/>
-          <path d="M332 75C308 75 289 94 289 118C289 142 308 161 332 161C342 161 351 158 358 152C345 157 328 153 319 142C308 129 309 109 321 97C330 88 344 85 356 89C349 80 341 75 332 75Z" fill="#fff1f7"/>
+          <!-- Golden Foliage Canopy (Left & Right Trees) -->
+          <!-- Tree Trunk Left -->
+          <path d="M45 480C55 350 40 240 25 140C20 110 35 110 40 140C60 240 75 350 95 480Z" fill="url(#trunkGrad)"/>
+          <path d="M45 220C75 190 120 180 150 170" stroke="#2e1407" stroke-width="8" stroke-linecap="round"/>
+          <path d="M40 170C65 140 100 130 135 125" stroke="#2e1407" stroke-width="6" stroke-linecap="round"/>
 
-          <!-- Rotating Arcane Circle Accent -->
-          <g class="arcane-group" opacity="0.38">
-            <circle cx="210" cy="220" r="108" stroke="#f472b6" stroke-width="1" stroke-dasharray="6 6"/>
-            <circle cx="210" cy="220" r="88" stroke="#22d3ee" stroke-width="1"/>
-            <polygon points="210,122 295,270 125,270" stroke="#c084fc" stroke-width="1" fill="none"/>
-            <polygon points="210,318 295,170 125,170" stroke="#ff6b9d" stroke-width="1" fill="none"/>
+          <!-- Tree Trunk Right -->
+          <path d="M365 480C350 340 365 230 380 130C385 100 370 100 365 130C345 230 335 340 320 480Z" fill="url(#trunkGrad)"/>
+          <path d="M355 210C320 180 275 175 240 165" stroke="#2e1407" stroke-width="7" stroke-linecap="round"/>
+
+          <!-- Golden Leaf Clouds & Foliage Tufts -->
+          <circle cx="95" cy="115" r="65" fill="url(#leafGrad1)" fill-opacity="0.92"/>
+          <circle cx="155" cy="130" r="50" fill="url(#leafGrad2)" fill-opacity="0.88"/>
+          <circle cx="55" cy="165" r="48" fill="url(#leafGrad1)" fill-opacity="0.85"/>
+          <circle cx="185" cy="155" r="40" fill="url(#leafGrad2)" fill-opacity="0.82"/>
+
+          <circle cx="335" cy="100" r="70" fill="url(#leafGrad1)" fill-opacity="0.95"/>
+          <circle cx="285" cy="120" r="55" fill="url(#leafGrad2)" fill-opacity="0.88"/>
+          <circle cx="365" cy="155" r="50" fill="url(#leafGrad1)" fill-opacity="0.85"/>
+          <circle cx="245" cy="140" r="42" fill="url(#leafGrad1)" fill-opacity="0.8"/>
+
+          <!-- Cozy Park Bench Silhouette -->
+          <g transform="translate(145, 345)">
+            <rect x="0" y="24" width="75" height="4" rx="2" fill="#2d1506"/>
+            <rect x="0" y="16" width="75" height="4" rx="2" fill="#3a1b08"/>
+            <rect x="5" y="0" width="65" height="14" rx="2" fill="#2d1506" stroke="#451a03" stroke-width="1"/>
+            <path d="M8 28L4 44M67 28L71 44M37 28L37 44" stroke="#1c0f06" stroke-width="3" stroke-linecap="round"/>
           </g>
 
-          <!-- Distant Mountains -->
-          <path d="M0 365L75 315L160 352L255 295L340 345L420 310V460H0V365Z" fill="#130a29" fill-opacity="0.85"/>
-          <path d="M0 390L110 348L210 378L310 342L420 382V460H0V390Z" fill="#0d071d"/>
-
-          <!-- Stylized Torii Gate Silhouette -->
-          <g transform="translate(132, 240)">
-            <path d="M12 22C50 10 106 10 144 22L148 13C108 2 48 2 8 13L12 22Z" fill="#ff4d8d"/>
-            <rect x="22" y="34" width="112" height="8" rx="3" fill="#ff6b9d"/>
-            <rect x="38" y="20" width="11" height="125" rx="2" fill="#e11d74"/>
-            <rect x="107" y="20" width="11" height="125" rx="2" fill="#e11d74"/>
-            <rect x="73" y="20" width="10" height="18" fill="#ffb3d1"/>
+          <!-- Golden Park Lamp Post Glowing -->
+          <g transform="translate(255, 260)">
+            <line x1="12" y1="125" x2="12" y2="25" stroke="#1f1107" stroke-width="4"/>
+            <circle cx="12" cy="22" r="14" fill="#fef08a" fill-opacity="0.45"/>
+            <circle cx="12" cy="22" r="6" fill="#ffffff" fill-opacity="0.95"/>
+            <polygon points="6,12 18,12 21,28 3,28" stroke="#1f1107" stroke-width="1.5" fill="none"/>
+            <polygon points="12,4 4,12 20,12" fill="#1f1107"/>
           </g>
 
-          <!-- Sakura Branch Silhouette Left -->
-          <path d="M0 190Q60 180 110 210Q85 205 55 212" stroke="#1e1035" stroke-width="4" stroke-linecap="round"/>
-          <circle cx="88" cy="196" r="14" fill="#ff6b9d" fill-opacity="0.75"/>
-          <circle cx="110" cy="208" r="10" fill="#ffb3d1" fill-opacity="0.8"/>
-          <circle cx="62" cy="186" r="16" fill="#ec4899" fill-opacity="0.65"/>
-          <circle cx="38" cy="202" r="13" fill="#ff8fab" fill-opacity="0.7"/>
+          <!-- Falling & Swirling Maple Leaves -->
+          <g class="swirling-leaves">
+            <path d="M120 210 Q130 200 135 210 Q145 205 140 218 Q148 225 138 228 Q135 238 128 230 Q120 235 122 225 Q112 220 120 210Z" fill="#fbbf24" opacity="0.9"/>
+            <path d="M210 180 Q218 172 222 180 Q230 176 226 186 Q232 192 224 194 Q222 202 216 196 Q210 200 211 192 Q203 188 210 180Z" fill="#f97316" opacity="0.88"/>
+            <path d="M290 230 Q296 224 300 230 Q306 227 303 235 Q308 240 302 242 Q300 248 295 244 Q290 247 291 240 Q285 237 290 230Z" fill="#f59e0b" opacity="0.92"/>
+            <path d="M175 270 Q182 263 186 270 Q193 266 189 276 Q195 282 187 284 Q185 291 180 286 Q174 290 175 282 Q168 278 175 270Z" fill="#ea580c" opacity="0.85"/>
+            <path d="M80 280 Q86 274 90 280 Q96 277 93 285 Q98 290 92 292 Q90 298 85 294 Q80 297 81 290 Q75 287 80 280Z" fill="#fde047" opacity="0.9"/>
+          </g>
+
+          <!-- Pathway Ground Covered with Golden Fallen Leaves -->
+          <path d="M0 420Q150 400 280 435Q350 420 420 440V480H0V420Z" fill="#b45309" fill-opacity="0.85"/>
+          <path d="M0 445Q180 430 330 455Q380 445 420 460V480H0V445Z" fill="#78350f"/>
         </svg>
       </div>
 
       <div class="showcase-overlay">
+        <div class="showcase-title">
+        </div>
+        <p class="showcase-desc">
+        </p>
+
         <div class="showcase-stats">
           <div class="stat-chip">
-            <span class="stat-icon">⚡</span>
+            <span class="stat-icon">🍂</span>
             <div>
-              <div class="stat-label">JWT + Redis</div>
-              <div class="stat-sub">Token Blacklist &amp; Refresh</div>
+              <div class="stat-label">Dual-IDP Core</div>
+              <div class="stat-sub">Keycloak &amp; Local DB</div>
             </div>
           </div>
           <div class="stat-chip">
             <span class="stat-icon">🛡️</span>
             <div>
-              <div class="stat-label">2FA Seal</div>
+              <div class="stat-label">2FA Shield</div>
               <div class="stat-sub">Bảo vệ OTP qua Email</div>
             </div>
           </div>
@@ -108,6 +147,7 @@
 
       <!-- Header Brand -->
       <div class="auth-header">
+        <div class="brand-badge">🍂 IAM SECURE PORTAL 🍁</div>
         <h1 class="brand-title">IAM System</h1>
       </div>
 
@@ -118,14 +158,14 @@
           class="tab-btn"
           [class.active]="activeTab === 'login'"
           (click)="activeTab = 'login'">
-          <span>Đăng Nhập</span>
+          <span>🍂 Đăng Nhập</span>
         </button>
         <button
           type="button"
           class="tab-btn"
           [class.active]="activeTab === 'register'"
           (click)="activeTab = 'register'">
-          <span>Tạo Tài Khoản</span>
+          <span>🍁 Tạo Tài Khoản</span>
         </button>
       </div>
 
@@ -174,22 +214,21 @@
             @if (loading()) {
               <span class="spinner"></span> Đang xác thực...
             } @else {
-              <span>Đăng Nhập Ngay ✨</span>
+              <span>Đăng Nhập Ngay 🍁</span>
             }
           </button>
 
           <!-- KEYCLOAK SSO BUTTON -->
-          <div style="margin: 16px 0; display: flex; align-items: center; justify-content: center; gap: 10px; color: rgba(255,255,255,0.4); font-size: 0.85rem;">
-            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.15);"></div>
+          <div class="divider-wrap">
+            <div class="divider-line"></div>
             <span>HOẶC TIẾP TỤC VỚI</span>
-            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.15);"></div>
+            <div class="divider-line"></div>
           </div>
 
           <button
             type="button"
-            class="btn-dream btn-block"
-            (click)="loginWithKeycloak()"
-            style="background: linear-gradient(135deg, #0ea5e9, #6366f1); border-color: rgba(255,255,255,0.3); box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);">
+            class="btn-dream btn-block btn-keycloak"
+            (click)="loginWithKeycloak()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
               <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
             </svg>
@@ -248,7 +287,7 @@
               </button>
             </div>
 
-            <!-- Password Strength Mana Meter -->
+            <!-- Password Strength Meter -->
             @if (registerData.password) {
               <div class="strength-meter">
                 <div class="strength-bar-bg">
@@ -284,7 +323,7 @@
             @if (loading()) {
               <span class="spinner"></span> Đang tạo tài khoản...
             } @else {
-              <span>Đăng Ký Tài Khoản 🌸</span>
+              <span>Đăng Ký Tài Khoản 🍁</span>
             }
           </button>
         </form>
@@ -301,7 +340,7 @@
         </div>
         <h2 class="modal-title">Xác Thực Hai Yếu Tố (2FA)</h2>
         <p class="modal-desc">
-          Mã xác thực 6 số đã được gửi qua email <strong>{{ pending2faEmail }}</strong>. Vui lòng nhập mã để mở phong ấn:
+          Mã xác thực 6 số đã được gửi qua email <strong>{{ pending2faEmail }}</strong>. Vui lòng nhập mã để hoàn tất đăng nhập:
         </p>
 
         <div class="otp-input-wrapper">
@@ -318,7 +357,7 @@
           <button type="button" class="btn-ghost" (click)="show2faModal.set(false)">Hủy</button>
           <button type="button" class="btn-dream" (click)="onVerify2fa()" [disabled]="loading()">
             @if (loading()) { <span class="spinner"></span> }
-            <span>Xác Minh OTP ⚡</span>
+            <span>Xác Minh OTP 🍂</span>
           </button>
         </div>
       </div>
@@ -347,7 +386,7 @@
             <button type="button" class="btn-ghost" (click)="showForgotModal.set(false)">Hủy bỏ</button>
             <button type="button" class="btn-dream" (click)="onSendForgotOtp()" [disabled]="loading()">
               @if (loading()) { <span class="spinner"></span> }
-              <span>Gửi Mã OTP 📬</span>
+              <span>Gửi Mã OTP 🍁</span>
             </button>
           </div>
         } @else {

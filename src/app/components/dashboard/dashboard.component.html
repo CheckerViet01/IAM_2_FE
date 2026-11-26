@@ -1,26 +1,27 @@
 <div class="dashboard-wrapper">
-  <!-- Anime Sky & Drifting Sakura Petals -->
-  <div class="starfield"></div>
-  <div class="sakura-layer" aria-hidden="true">
-    <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-    <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-    <span class="petal"></span><span class="petal"></span><span class="petal"></span>
-    <span class="petal"></span>
+  <!-- Autumn Golden Sunlight & Falling Maple Leaves Layers -->
+  <div class="golden-bokeh"></div>
+  <div class="sunbeams"></div>
+  <div class="autumn-leaves-layer" aria-hidden="true">
+    <span class="leaf"></span><span class="leaf"></span><span class="leaf"></span>
+    <span class="leaf"></span><span class="leaf"></span><span class="leaf"></span>
+    <span class="leaf"></span><span class="leaf"></span><span class="leaf"></span>
+    <span class="leaf"></span><span class="leaf"></span><span class="leaf"></span>
   </div>
   <div class="aurora-orb orb-1"></div>
   <div class="aurora-orb orb-2"></div>
   <div class="aurora-orb orb-3"></div>
 
-  <!-- TOP ANIME HUD NAVBAR -->
+  <!-- TOP AUTUMN HUD NAVBAR -->
   <header class="top-nav glass-panel">
     <div class="nav-brand">
       <div class="brand-crest">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L14.8 8.6L22 9.3L16.5 14L18.2 21L12 17.3L5.8 21L7.5 14L2 9.3L9.2 8.6L12 2Z" stroke="#ff8fab" stroke-width="1.8" fill="rgba(255,107,157,0.25)"/>
+          <path d="M12 2L14.8 8.6L22 9.3L16.5 14L18.2 21L12 17.3L5.8 21L7.5 14L2 9.3L9.2 8.6L12 2Z" stroke="#fbbf24" stroke-width="1.8" fill="rgba(245,158,11,0.3)"/>
         </svg>
       </div>
       <div class="brand-info">
-        <span class="brand-name">IAM System</span>
+        <span class="brand-name">IAM System 🍁</span>
       </div>
     </div>
 
@@ -72,7 +73,7 @@
         class="tab-item"
         [class.active]="activeTab === 'profile'"
         (click)="onTabChange('profile')">
-        <span class="tab-icon">🌸</span>
+        <span class="tab-icon">🍂</span>
         <span class="tab-text">Hồ Sơ Cá Nhân</span>
       </button>
 
@@ -81,7 +82,7 @@
         class="tab-item"
         [class.active]="activeTab === 'avatar'"
         (click)="onTabChange('avatar')">
-        <span class="tab-icon">📸</span>
+        <span class="tab-icon">🖼️</span>
         <span class="tab-text">Ảnh Đại Diện</span>
       </button>
 
@@ -90,7 +91,7 @@
         class="tab-item"
         [class.active]="activeTab === 'security'"
         (click)="onTabChange('security')">
-        <span class="tab-icon">🔮</span>
+        <span class="tab-icon">🛡️</span>
         <span class="tab-text">Bảo Mật &amp; 2FA</span>
       </button>
 

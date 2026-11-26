@@ -54,12 +54,12 @@ import { ToastService } from '../../services/toast.service';
       gap: 12px;
       padding: 14px 18px;
       border-radius: 16px;
-      background: rgba(18, 11, 38, 0.9);
+      background: rgba(26, 16, 8, 0.92);
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
-      box-shadow: 0 14px 35px rgba(5, 2, 18, 0.65), 0 0 24px rgba(255, 107, 157, 0.18);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.75), 0 0 24px rgba(245, 158, 11, 0.25);
       animation: toastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      border: 1px solid rgba(255, 154, 196, 0.25);
+      border: 1px solid rgba(251, 191, 36, 0.35);
     }
     .toast-glow {
       position: absolute;
